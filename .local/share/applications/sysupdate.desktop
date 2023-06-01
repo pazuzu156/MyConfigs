@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=System Update
+Version=1.0
+Type=Application
+Terminal=true
+Categories=System;
+Icon=system-software-update
+Exec=/usr/bin/fish /home/YOUR_USERNAME/Tools/sysupdate.fish

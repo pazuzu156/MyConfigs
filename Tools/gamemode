@@ -1,0 +1,52 @@
+#!/bin/bash
+
+function show_help {
+  printf "%s\n%s\n%s\n\nFlags:\n" \
+    "gamemode: Preset proton flags and run an application with gamemoderun" \
+    "Usage: gamemode [OPTION] <COMMAND>" \
+    "Example: gamemode -mv SuperTuxKart (Run SuperTuxKart with gamemoderun enabling mangohud and vkbasalt)"
+
+  printf "  -%s: %s\n  -%s: %s\n  -%s: %s\n" \
+    "m" "Enable Mangohud" \
+    "v" "Enable VKBasalt" \
+    "h" "Show this help text"
+}
+
+# Set defaults
+export PROTON_ENABLE_NVAPI=1
+export PROTON_HIDE_NVIDIA_GPU=0
+export VKD3D_CONFIG=dxr11
+export DXVK_ENABLE_NVAPI=1
+
+# Set defaults for optional flags
+export MANGO=0
+export ENABLE_VKBASALT=0
+
+# Set defaults for flag handling (invalid flags and show help if requested)
+export INVALID_FLAG=0
+export SHOW_HELP=0
+
+while getopts :mvh flag; do
+  case "${flag}" in
+    m) MANGO=1;;
+    v) ENABLE_VKBASALT=1;;
+    h)
+      SHOW_HELP=1
+      show_help
+      ;;
+    *) INVALID_FLAG=1;;
+  esac
+done
+shift $(($OPTIND -1))
+
+if [[ $SHOW_HELP == 0 ]]; then
+  if [[ $INVALID_FLAG == 1 ]]; then
+    echo "Invalid flag was passed! Use \`gamemode -h\` to get a list of available flags."
+  else
+    if [[ $MANGO == 1 ]]; then
+      gamemoderun mangohud "$@"
+    else
+      gamemoderun "$@"
+    fi
+  fi
+fi

@@ -1,0 +1,3 @@
+[submodule ".config/fish"]
+	path = .config/fish
+	url = https://github.com/pazuzu156/fish_config.git

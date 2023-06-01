@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=ESO Database
+Version=1.0
+Type=Application
+Terminal=false
+Icon=/home/YOUR_USERNAME/Pictures/esodb.png
+Exec=/usr/bin/java -jar /home/YOUR_USERNAME/Tools/esodb_client.jar
+Categories=Game;Games
+StartupNotify=true

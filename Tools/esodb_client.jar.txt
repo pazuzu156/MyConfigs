@@ -1,0 +1,3 @@
+Download ESO-Database client from here: https://www.eso-database.com/en/add-data/
+
+Make sure you're running OpenJDK >= 19
