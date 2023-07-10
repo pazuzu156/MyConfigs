@@ -9,18 +9,19 @@ function show_help {
   printf "  -%s: %s\n  -%s: %s\n  -%s: %s\n" \
     "m" "Enable Mangohud" \
     "v" "Enable VKBasalt" \
+    "n": "Use NVidia GPU flags" \
     "h" "Show this help text"
 }
 
+
+
 # Set defaults
-export PROTON_ENABLE_NVAPI=1
-export PROTON_HIDE_NVIDIA_GPU=0
-export VKD3D_CONFIG=dxr11
-export DXVK_ENABLE_NVAPI=1
+export VKD3D_CONFIG=dxr11,dxr
 
 # Set defaults for optional flags
 export MANGO=0
 export ENABLE_VKBASALT=0
+export USE_NVIDIA_GPU=0
 
 # Set defaults for flag handling (invalid flags and show help if requested)
 export INVALID_FLAG=0
@@ -30,6 +31,7 @@ while getopts :mvh flag; do
   case "${flag}" in
     m) MANGO=1;;
     v) ENABLE_VKBASALT=1;;
+    n) USE_NVIDIA_GPU=1;;
     h)
       SHOW_HELP=1
       show_help
@@ -39,14 +41,22 @@ while getopts :mvh flag; do
 done
 shift $(($OPTIND -1))
 
+if [[ $USE_NVIDIA_GPU == 1 ]]; then
+  export PROTON_ENABLE_NVAPI=1
+  export PROTON_HIDE_NVIDIA_GPU=0
+  export DXVK_ENABLE_NVAPI=1
+else
+  export RADV_PERFTEST=rt
+fi
+
 if [[ $SHOW_HELP == 0 ]]; then
   if [[ $INVALID_FLAG == 1 ]]; then
     echo "Invalid flag was passed! Use \`gamemode -h\` to get a list of available flags."
   else
     if [[ $MANGO == 1 ]]; then
-      gamemoderun mangohud "$@"
+      vk_radv gamemoderun mangohud "$@"
     else
-      gamemoderun "$@"
+      vk_radv gamemoderun "$@"
     fi
   fi
 fi
