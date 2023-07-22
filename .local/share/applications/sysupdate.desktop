@@ -2,7 +2,7 @@
 Name=System Update
 Version=1.0
 Type=Application
-Terminal=false
+Terminal=true
 Categories=System;
 Icon=system-software-update
-Exec=/usr/bin/tilix -e /usr/bin/fish /home/kaleb/Tools/sysupdate.fish
+Exec=/usr/bin/fish /home/kaleb/Tools/sysupdate.fish
